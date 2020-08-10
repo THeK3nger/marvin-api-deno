@@ -1,4 +1,6 @@
 import { MarvinTask } from "./datamodel/Task.ts";
+import { MarvinTrackedTask } from "./datamodel/TrackedTask.ts";
+import { Label } from "./datamodel/Label.ts";
 
 export class MarvinClient {
   MARVIN_URL = "https://serv.amazingmarvin.com/api";
@@ -28,6 +30,26 @@ export class MarvinClient {
       JSON.stringify(task)
     );
 
+    return await response.json();
+  }
+
+  public async getTrackedTask(): Promise<MarvinTrackedTask> {
+    const response = await this.marvinRequest("GET", "/trackedItem");
+    return await response.json();
+  }
+
+  public async getScheduledTodayTask(): Promise<MarvinTask[]> {
+    const response = await this.marvinRequest("GET", "/todayItems");
+    return await response.json();
+  }
+
+  public async getDueTodayTask(): Promise<MarvinTask[]> {
+    const response = await this.marvinRequest("GET", "/dueItems");
+    return await response.json();
+  }
+
+  public async getLabels(): Promise<Label[]> {
+    const response = await this.marvinRequest("GET", "/labels");
     return await response.json();
   }
 
